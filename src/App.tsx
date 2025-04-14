@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { Brain, Calendar, ClipboardCheck, HeartPulse, Home, MessageSquareText, Pill as Pills } from 'lucide-react';
+
+import { useState } from 'react';
+import { Brain, ClipboardCheck, MessageSquareText, Pill as Pills } from 'lucide-react';
 import Questionnaire from './components/Questionnaire';
 import Dashboard from './components/Dashboard';
 import Treatment from './components/Treatment';
 import Chat from './components/Chat';
+import { AssessmentResult } from './types/assessment';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [assessmentCompleted, setAssessmentCompleted] = useState(false);
-  const [diagnosis, setDiagnosis] = useState(null);
+  const [diagnosis, setDiagnosis] = useState<AssessmentResult | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -34,7 +36,7 @@ function App() {
                   activeTab === 'dashboard' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
                 }`}
               >
-                <Home size={20} />
+                <ClipboardCheck size={20} />
                 <span>Dashboard</span>
               </button>
               <button

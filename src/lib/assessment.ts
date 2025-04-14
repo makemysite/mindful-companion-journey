@@ -1,4 +1,5 @@
-import { Question, Answer, AssessmentResult } from '../types/assessment';
+
+import { Answer, AssessmentResult } from '../types/assessment';
 import { supabase } from './supabase';
 import { analyzeAnswers, analyzeText, detectEmergency, generateEmergencyResponse, NLPAnalysis } from './nlp';
 
@@ -41,6 +42,7 @@ export async function submitAssessment(answers: Answer[]): Promise<AssessmentRes
       primaryCondition: diagnosis.primary,
       secondaryConditions: diagnosis.secondary,
       severity: diagnosis.severity,
+      riskLevel: isEmergency ? 'emergency' : getRiskLevel(diagnosis.severity),
       timestamp: new Date(),
       recommendations: generateRecommendations(diagnosis, isEmergency),
     };
@@ -62,6 +64,21 @@ export async function submitAssessment(answers: Answer[]): Promise<AssessmentRes
   } catch (error) {
     console.error('Error submitting assessment:', error);
     throw error;
+  }
+}
+
+// Helper function to determine risk level based on severity
+function getRiskLevel(severity: 'minimal' | 'mild' | 'moderate' | 'severe'): 'low' | 'medium' | 'high' {
+  switch (severity) {
+    case 'minimal':
+    case 'mild':
+      return 'low';
+    case 'moderate':
+      return 'medium';
+    case 'severe':
+      return 'high';
+    default:
+      return 'medium';
   }
 }
 

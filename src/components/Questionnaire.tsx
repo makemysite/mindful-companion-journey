@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, AlertTriangle } from 'lucide-react';
 import { Question, Answer, AssessmentResult } from '../types/assessment';
 import { primaryQuestions, secondaryQuestions, openEndedQuestions } from '../lib/questions';
@@ -45,7 +45,7 @@ function Questionnaire({ onComplete }: QuestionnaireProps) {
 
     // Check for follow-up triggers
     if (question.followUpTrigger && currentTier === 'primary') {
-      const { condition, value: triggerValue, threshold } = question.followUpTrigger;
+      const { condition, threshold } = question.followUpTrigger;
       
       let shouldTrigger = false;
       if (condition === 'value') {

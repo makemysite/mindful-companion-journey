@@ -1,8 +1,9 @@
-import React from 'react';
+
 import { Calendar, Brain, HeartPulse, Footprints } from 'lucide-react';
+import { AssessmentResult } from '../types/assessment';
 
 interface TreatmentProps {
-  diagnosis: any;
+  diagnosis: AssessmentResult | null;
 }
 
 function Treatment({ diagnosis }: TreatmentProps) {

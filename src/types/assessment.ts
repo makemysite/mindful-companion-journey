@@ -39,13 +39,14 @@ export const NLPAnalysisSchema = z.object({
   topics: z.array(z.string()),
 });
 
+// Adjusting severity and riskLevel to match what's used in assessment.ts
 export const AssessmentResultSchema = z.object({
   userId: z.string(),
   scores: z.record(z.string(), z.number()),
   primaryCondition: z.string(),
   secondaryConditions: z.array(z.string()),
-  severity: z.enum(['minimal', 'mild', 'moderate', 'moderatelySevere', 'severe']),
-  riskLevel: z.enum(['low', 'medium', 'high', 'emergency']),
+  severity: z.enum(['minimal', 'mild', 'moderate', 'severe']),
+  riskLevel: z.enum(['low', 'medium', 'high', 'emergency']).optional(), // Making riskLevel optional
   timestamp: z.date(),
   recommendations: z.array(z.string()),
   nlpAnalysis: z.object({

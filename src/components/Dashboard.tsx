@@ -1,12 +1,13 @@
-import React from 'react';
+
 import { Calendar, HeartPulse, Brain, Activity, ClipboardCheck } from 'lucide-react';
+import { AssessmentResult } from '../types/assessment';
 
 interface DashboardProps {
   assessmentCompleted: boolean;
-  diagnosis: any;
+  diagnosis: AssessmentResult | null;
 }
 
-function Dashboard({ assessmentCompleted, diagnosis }: DashboardProps) {
+function Dashboard({ assessmentCompleted }: DashboardProps) {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold text-gray-800">Welcome to MindWell AI</h1>
