@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 export const QuestionSchema = z.object({
@@ -31,6 +32,13 @@ export const AnswerSchema = z.object({
   }),
 });
 
+export const NLPAnalysisSchema = z.object({
+  sentiment: z.number(),
+  emotions: z.record(z.string(), z.number()),
+  urgency: z.number(),
+  topics: z.array(z.string()),
+});
+
 export const AssessmentResultSchema = z.object({
   userId: z.string(),
   scores: z.record(z.string(), z.number()),
@@ -45,16 +53,17 @@ export const AssessmentResultSchema = z.object({
     sentiments: z.record(z.string(), z.number()),
     topics: z.array(z.string()),
     emergencyFlags: z.array(z.string()),
-  }),
+  }).optional(),
   metadata: z.object({
     completionTime: z.number(),
     questionCount: z.number(),
     skippedCount: z.number(),
     revisedCount: z.number(),
     tier2Triggered: z.boolean(),
-  }),
+  }).optional(),
 });
 
 export type Question = z.infer<typeof QuestionSchema>;
 export type Answer = z.infer<typeof AnswerSchema>;
+export type NLPAnalysis = z.infer<typeof NLPAnalysisSchema>;
 export type AssessmentResult = z.infer<typeof AssessmentResultSchema>;

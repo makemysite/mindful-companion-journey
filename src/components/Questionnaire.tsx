@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, AlertTriangle } from 'lucide-react';
 import { Question, Answer, AssessmentResult } from '../types/assessment';
@@ -14,6 +15,7 @@ function Questionnaire({ onComplete }: QuestionnaireProps) {
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [activeQuestions, setActiveQuestions] = useState<Question[]>([]);
   const [startTime, setStartTime] = useState<Record<string, number>>({});
+  const [triggerSecondaryCategories, setTriggerSecondaryCategories] = useState<Set<string>>(new Set());
 
   // Initialize active questions with primary questions
   useEffect(() => {
@@ -44,12 +46,16 @@ function Questionnaire({ onComplete }: QuestionnaireProps) {
     // Check for follow-up triggers
     if (question.followUpTrigger && currentTier === 'primary') {
       const { condition, value: triggerValue, threshold } = question.followUpTrigger;
-      const shouldTrigger = condition === 'value' && 
-        (typeof value === 'number' ? value >= Number(threshold) : value === triggerValue);
+      
+      let shouldTrigger = false;
+      if (condition === 'value') {
+        shouldTrigger = typeof value === 'number' 
+          ? value >= Number(threshold) 
+          : value !== 'Not at all';
+      }
 
       if (shouldTrigger) {
-        const categoryQuestions = secondaryQuestions.filter(q => q.category === question.category);
-        setActiveQuestions(prev => [...prev, ...categoryQuestions]);
+        setTriggerSecondaryCategories(prev => new Set([...prev, question.category]));
       }
     }
   };
@@ -78,9 +84,21 @@ function Questionnaire({ onComplete }: QuestionnaireProps) {
     if (currentIndex < activeQuestions.length - 1) {
       setCurrentIndex(prev => prev + 1);
       setStartTime(prev => ({ ...prev, [activeQuestions[currentIndex + 1].id]: Date.now() }));
-    } else if (currentTier === 'primary' && answers.some(a => a.questionId.startsWith('phq2_') || a.questionId.startsWith('gad2_'))) {
-      setCurrentTier('secondary');
-      setCurrentIndex(0);
+    } else if (currentTier === 'primary' && triggerSecondaryCategories.size > 0) {
+      // Filter secondary questions based on triggered categories
+      const categoriesArray = Array.from(triggerSecondaryCategories);
+      const relevantSecondaryQuestions = secondaryQuestions.filter(q => 
+        categoriesArray.includes(q.category)
+      );
+      
+      if (relevantSecondaryQuestions.length > 0) {
+        setActiveQuestions(relevantSecondaryQuestions);
+        setCurrentTier('secondary');
+        setCurrentIndex(0);
+        setStartTime(prev => ({ ...prev, [relevantSecondaryQuestions[0].id]: Date.now() }));
+      } else {
+        handleComplete();
+      }
     } else {
       handleComplete();
     }

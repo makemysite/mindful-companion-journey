@@ -1,5 +1,7 @@
+
 import { Question } from '../types/assessment';
 
+// Primary screening questions (brief assessment covering major domains)
 export const primaryQuestions: Question[] = [
   // Mood Assessment (PHQ-2)
   {
@@ -114,6 +116,7 @@ export const primaryQuestions: Question[] = [
   },
 ];
 
+// Secondary targeted assessment questions (presented adaptively based on primary responses)
 export const secondaryQuestions: Question[] = [
   // Depression Module (PHQ-9 additional items)
   {
@@ -152,6 +155,15 @@ export const secondaryQuestions: Question[] = [
     tier: 'secondary',
     weight: 1,
   },
+  {
+    id: 'phq9_7',
+    text: 'Over the past two weeks, how often have you had thoughts that you would be better off dead or of hurting yourself in some way?',
+    type: 'choice',
+    options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    category: 'mood',
+    tier: 'secondary',
+    weight: 3, // Higher weight for suicidal ideation
+  },
   // Anxiety Module (additional items)
   {
     id: 'gad7_3',
@@ -165,6 +177,15 @@ export const secondaryQuestions: Question[] = [
   {
     id: 'gad7_4',
     text: 'How often do your worry patterns interfere with daily activities or relationships?',
+    type: 'choice',
+    options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    category: 'anxiety',
+    tier: 'secondary',
+    weight: 1,
+  },
+  {
+    id: 'gad7_5',
+    text: 'How often do you find it difficult to control the worry?',
     type: 'choice',
     options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
     category: 'anxiety',
@@ -211,6 +232,7 @@ export const secondaryQuestions: Question[] = [
   },
 ];
 
+// Open-text response component for qualitative data and NLP analysis
 export const openEndedQuestions: Question[] = [
   {
     id: 'open_1',
