@@ -23,6 +23,7 @@ export function AssessmentHistory() {
         return;
       }
 
+      console.log('Fetched Assessments:', data);
       setAssessments(data);
       setLoading(false);
     }
@@ -39,14 +40,14 @@ export function AssessmentHistory() {
       <h2 className="text-xl font-semibold text-gray-800">Assessment History</h2>
       <div className="space-y-4">
         {assessments.map((assessment) => (
-          <div key={assessment.timestamp.toString()} className="bg-white p-4 rounded-lg border">
+          <div key={assessment.created_at} className="bg-white p-4 rounded-lg border">
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-medium text-gray-800">
-                  Primary Condition: {assessment.primaryCondition}
+                  Primary Condition: {assessment.primary_condition}
                 </p>
                 <p className="text-sm text-gray-600">
-                  Date: {format(new Date(assessment.timestamp), 'PPP')}
+                  Date: {format(new Date(assessment.created_at), 'PPP')}
                 </p>
               </div>
               <span className={`px-2 py-1 rounded-full text-sm ${
@@ -57,6 +58,13 @@ export function AssessmentHistory() {
                 {assessment.severity}
               </span>
             </div>
+            {assessment.secondary_conditions && assessment.secondary_conditions.length > 0 && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-600">
+                  Secondary Conditions: {assessment.secondary_conditions.join(', ')}
+                </p>
+              </div>
+            )}
           </div>
         ))}
       </div>

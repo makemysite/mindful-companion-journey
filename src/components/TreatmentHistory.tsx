@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/auth';
 import { supabase } from '../lib/supabase';
+import { format } from 'date-fns';
 
 interface TreatmentPlan {
   id: string;
@@ -31,6 +32,7 @@ export function TreatmentHistory() {
         return;
       }
 
+      console.log('Fetched Treatment Plans:', data);
       setTreatments(data);
       setLoading(false);
     }
@@ -50,17 +52,31 @@ export function TreatmentHistory() {
           <div key={treatment.id} className="bg-white p-4 rounded-lg border">
             <div className="space-y-2">
               <p className="font-medium text-gray-800">
-                Started: {new Date(treatment.start_date).toLocaleDateString()}
+                Started: {format(new Date(treatment.start_date), 'PPP')}
               </p>
               <p className="text-sm text-gray-600">Duration: {treatment.duration}</p>
               <div className="grid grid-cols-2 gap-4 mt-2">
                 <div>
                   <h4 className="font-medium text-sm text-gray-700">Medications</h4>
-                  <p className="text-sm text-gray-600">{treatment.medications.length} prescribed</p>
+                  <p className="text-sm text-gray-600">
+                    {treatment.medications.length} prescribed
+                    {treatment.medications.map((med, index) => (
+                      <div key={index} className="text-xs text-gray-500">
+                        {med.name} ({med.dosage})
+                      </div>
+                    ))}
+                  </p>
                 </div>
                 <div>
                   <h4 className="font-medium text-sm text-gray-700">Exercises</h4>
-                  <p className="text-sm text-gray-600">{treatment.exercises.length} assigned</p>
+                  <p className="text-sm text-gray-600">
+                    {treatment.exercises.length} assigned
+                    {treatment.exercises.map((exercise, index) => (
+                      <div key={index} className="text-xs text-gray-500">
+                        {exercise.name} ({exercise.duration})
+                      </div>
+                    ))}
+                  </p>
                 </div>
               </div>
             </div>

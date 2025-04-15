@@ -33,6 +33,7 @@ export function TreatmentTracker() {
         return;
       }
 
+      console.log('Fetched Treatment Schedule:', data);
       setSchedule(data);
       setLoading(false);
     }
