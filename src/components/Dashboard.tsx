@@ -26,7 +26,9 @@ function Dashboard({ assessmentCompleted, diagnosis }: DashboardProps) {
             </p>
           ) : (
             <p className="mt-2 text-gray-600">
-              Assessment completed. View your personalized treatment plan for detailed recommendations.
+              {diagnosis 
+                ? `Assessment reveals ${diagnosis.primaryCondition} condition with ${diagnosis.severity} severity.`
+                : 'Assessment completed. View your personalized treatment plan for detailed recommendations.'}
             </p>
           )}
         </div>
@@ -42,12 +44,10 @@ function Dashboard({ assessmentCompleted, diagnosis }: DashboardProps) {
         </div>
       </div>
 
-      {/* Treatment Tracker */}
       <div className="bg-white rounded-lg border p-6">
         <TreatmentTracker />
       </div>
 
-      {/* History Section */}
       <div className="grid md:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg border p-6">
           <AssessmentHistory />
@@ -57,7 +57,6 @@ function Dashboard({ assessmentCompleted, diagnosis }: DashboardProps) {
         </div>
       </div>
 
-      {/* How it works section */}
       <div className="bg-white rounded-lg border p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">How MindWell AI Works</h2>
         <div className="grid md:grid-cols-3 gap-6">
