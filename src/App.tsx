@@ -1,16 +1,24 @@
 
 import { useState } from 'react';
-import { Brain, ClipboardCheck, MessageSquareText, Pill as Pills } from 'lucide-react';
+import { Brain, ClipboardCheck, MessageSquareText, Pill } from 'lucide-react';
+import { AuthProvider } from './components/AuthProvider';
+import { AuthPage } from './components/AuthPage';
+import { useAuth } from './lib/auth';
 import Questionnaire from './components/Questionnaire';
 import Dashboard from './components/Dashboard';
 import Treatment from './components/Treatment';
 import Chat from './components/Chat';
 import { AssessmentResult } from './types/assessment';
 
-function App() {
+function AppContent() {
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [assessmentCompleted, setAssessmentCompleted] = useState(false);
   const [diagnosis, setDiagnosis] = useState<AssessmentResult | null>(null);
+
+  if (!user) {
+    return <AuthPage />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -20,6 +28,14 @@ function App() {
             <div className="flex items-center">
               <Brain className="h-8 w-8 text-purple-600" />
               <span className="ml-2 text-xl font-semibold text-gray-800">MindWell AI</span>
+            </div>
+            <div className="flex items-center">
+              <button
+                onClick={() => signOut()}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                Sign Out
+              </button>
             </div>
           </div>
         </div>
@@ -96,6 +112,14 @@ function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

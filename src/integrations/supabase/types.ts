@@ -90,11 +90,13 @@ export type Database = {
           activities: Json[] | null
           assessment_id: string
           created_at: string | null
+          duration: string
           exercises: Json[] | null
           goals: Json[] | null
           id: string
           medications: Json[] | null
           progress_notes: Json[] | null
+          start_date: string | null
           updated_at: string | null
           user_id: string
         }
@@ -102,11 +104,13 @@ export type Database = {
           activities?: Json[] | null
           assessment_id: string
           created_at?: string | null
+          duration?: string
           exercises?: Json[] | null
           goals?: Json[] | null
           id?: string
           medications?: Json[] | null
           progress_notes?: Json[] | null
+          start_date?: string | null
           updated_at?: string | null
           user_id: string
         }
@@ -114,11 +118,13 @@ export type Database = {
           activities?: Json[] | null
           assessment_id?: string
           created_at?: string | null
+          duration?: string
           exercises?: Json[] | null
           goals?: Json[] | null
           id?: string
           medications?: Json[] | null
           progress_notes?: Json[] | null
+          start_date?: string | null
           updated_at?: string | null
           user_id?: string
         }
@@ -135,6 +141,56 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treatment_schedule: {
+        Row: {
+          activities: Json[] | null
+          completed: boolean | null
+          created_at: string | null
+          day_date: string | null
+          day_number: number
+          exercises: Json[] | null
+          id: string
+          medications: Json[] | null
+          notes: string | null
+          therapies: Json[] | null
+          treatment_plan_id: string
+        }
+        Insert: {
+          activities?: Json[] | null
+          completed?: boolean | null
+          created_at?: string | null
+          day_date?: string | null
+          day_number: number
+          exercises?: Json[] | null
+          id?: string
+          medications?: Json[] | null
+          notes?: string | null
+          therapies?: Json[] | null
+          treatment_plan_id: string
+        }
+        Update: {
+          activities?: Json[] | null
+          completed?: boolean | null
+          created_at?: string | null
+          day_date?: string | null
+          day_number?: number
+          exercises?: Json[] | null
+          id?: string
+          medications?: Json[] | null
+          notes?: string | null
+          therapies?: Json[] | null
+          treatment_plan_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treatment_schedule_treatment_plan_id_fkey"
+            columns: ["treatment_plan_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_plans"
             referencedColumns: ["id"]
           },
         ]
