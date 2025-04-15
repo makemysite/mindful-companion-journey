@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Brain, ClipboardCheck, MessageSquareText, Pill } from 'lucide-react';
 import { AuthProvider } from './components/AuthProvider';
 import { AuthPage } from './components/AuthPage';
