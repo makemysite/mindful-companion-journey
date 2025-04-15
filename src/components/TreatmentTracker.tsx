@@ -24,13 +24,19 @@ export function TreatmentTracker() {
     async function fetchSchedule() {
       if (!user) return;
       
+      // Fetch the schedule by joining with treatment_plans to ensure user-specific data
       const { data, error } = await supabase
         .from('treatment_schedule')
-        .select('*')
+        .select(`
+          *,
+          treatment_plans!inner(user_id)
+        `)
+        .eq('treatment_plans.user_id', user.id)
         .order('day_number', { ascending: true });
 
       if (error) {
         console.error('Error fetching schedule:', error);
+        setLoading(false);
         return;
       }
 

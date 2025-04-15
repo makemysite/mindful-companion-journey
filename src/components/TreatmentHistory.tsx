@@ -26,10 +26,12 @@ export function TreatmentHistory() {
       const { data, error } = await supabase
         .from('treatment_plans')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching treatments:', error);
+        setLoading(false);
         return;
       }
 

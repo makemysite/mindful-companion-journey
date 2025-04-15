@@ -17,10 +17,12 @@ export function AssessmentHistory() {
       const { data, error } = await supabase
         .from('assessments')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching assessments:', error);
+        setLoading(false);
         return;
       }
 
