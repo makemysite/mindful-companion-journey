@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import React from 'react';
 import { Brain, ClipboardCheck, MessageSquareText, Pill } from 'lucide-react';
 import { AuthProvider } from './components/AuthProvider';
 import { AuthPage } from './components/AuthPage';
@@ -70,7 +70,7 @@ function AppContent() {
                   activeTab === 'treatment' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
                 }`}
               >
-                <Pills size={20} />
+                <Pill size={20} />
                 <span>Treatment Plan</span>
               </button>
               <button
