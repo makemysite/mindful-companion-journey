@@ -62,6 +62,7 @@ export const AssessmentResultSchema = z.object({
     revisedCount: z.number(),
     tier2Triggered: z.boolean(),
   }).optional(),
+  created_at: z.string().optional(), // Adding this for database compatibility
 });
 
 export type Question = z.infer<typeof QuestionSchema>;

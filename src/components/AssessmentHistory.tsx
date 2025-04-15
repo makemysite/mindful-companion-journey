@@ -24,7 +24,20 @@ export function AssessmentHistory() {
       }
 
       console.log('Fetched Assessments:', data);
-      setAssessments(data);
+      
+      // Transform the data to match AssessmentResult type
+      const transformedData = data.map((assessment: any) => ({
+        userId: assessment.user_id,
+        scores: assessment.scores,
+        primaryCondition: assessment.primary_condition,
+        secondaryConditions: assessment.secondary_conditions || [],
+        severity: assessment.severity,
+        timestamp: new Date(assessment.created_at),
+        recommendations: assessment.recommendations || [],
+        created_at: assessment.created_at // Keep this for the key prop
+      }));
+      
+      setAssessments(transformedData);
       setLoading(false);
     }
 
@@ -44,10 +57,10 @@ export function AssessmentHistory() {
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-medium text-gray-800">
-                  Primary Condition: {assessment.primary_condition}
+                  Primary Condition: {assessment.primaryCondition}
                 </p>
                 <p className="text-sm text-gray-600">
-                  Date: {format(new Date(assessment.created_at), 'PPP')}
+                  Date: {format(new Date(assessment.timestamp), 'PPP')}
                 </p>
               </div>
               <span className={`px-2 py-1 rounded-full text-sm ${
@@ -58,10 +71,10 @@ export function AssessmentHistory() {
                 {assessment.severity}
               </span>
             </div>
-            {assessment.secondary_conditions && assessment.secondary_conditions.length > 0 && (
+            {assessment.secondaryConditions && assessment.secondaryConditions.length > 0 && (
               <div className="mt-2">
                 <p className="text-sm text-gray-600">
-                  Secondary Conditions: {assessment.secondary_conditions.join(', ')}
+                  Secondary Conditions: {assessment.secondaryConditions.join(', ')}
                 </p>
               </div>
             )}
