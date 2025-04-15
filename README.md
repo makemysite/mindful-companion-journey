@@ -1,19 +1,4 @@
 
-# Welcome to your MindWell AI project
-
-## Project info
-
-**URL**: https://lovable.dev/projects/a88369f6-645c-4f32-bf6e-4f8b44483c16
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use MindWell AI**
-
-Simply visit the [MindWell AI Project](https://lovable.dev/projects/a88369f6-645c-4f32-bf6e-4f8b44483c16) and start prompting.
-
-Changes made via MindWell AI will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -61,14 +46,3 @@ This project is built with .
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
-
-Simply open [MindWell AI](https://lovable.dev/projects/a88369f6-645c-4f32-bf6e-4f8b44483c16) and click on Share -> Publish.
-
-## Can I connect a custom domain to my MindWell AI project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
