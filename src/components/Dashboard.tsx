@@ -1,13 +1,15 @@
-
 import { Calendar, HeartPulse, Brain, Activity, ClipboardCheck } from 'lucide-react';
 import { AssessmentResult } from '../types/assessment';
+import { AssessmentHistory } from './AssessmentHistory';
+import { TreatmentHistory } from './TreatmentHistory';
+import { TreatmentTracker } from './TreatmentTracker';
 
 interface DashboardProps {
   assessmentCompleted: boolean;
   diagnosis: AssessmentResult | null;
 }
 
-function Dashboard({ assessmentCompleted }: DashboardProps) {
+function Dashboard({ assessmentCompleted, diagnosis }: DashboardProps) {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold text-gray-800">Welcome to MindWell AI</h1>
@@ -40,7 +42,23 @@ function Dashboard({ assessmentCompleted }: DashboardProps) {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border p-6 mt-6">
+      {/* Treatment Tracker */}
+      <div className="bg-white rounded-lg border p-6">
+        <TreatmentTracker />
+      </div>
+
+      {/* History Section */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg border p-6">
+          <AssessmentHistory />
+        </div>
+        <div className="bg-white rounded-lg border p-6">
+          <TreatmentHistory />
+        </div>
+      </div>
+
+      {/* How it works section */}
+      <div className="bg-white rounded-lg border p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">How MindWell AI Works</h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="space-y-2">
