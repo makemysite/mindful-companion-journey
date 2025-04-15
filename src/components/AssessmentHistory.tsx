@@ -13,6 +13,7 @@ export function AssessmentHistory() {
   useEffect(() => {
     async function fetchAssessments() {
       if (!user) return;
+      
       const { data, error } = await supabase
         .from('assessments')
         .select('*')
@@ -25,18 +26,25 @@ export function AssessmentHistory() {
 
       console.log('Fetched Assessments:', data);
       
+      if (!data || data.length === 0) {
+        console.log('No assessment data found');
+        setLoading(false);
+        return;
+      }
+      
       // Transform the data to match AssessmentResult type
       const transformedData = data.map((assessment: any) => ({
         userId: assessment.user_id,
-        scores: assessment.scores,
+        scores: assessment.scores || {},
         primaryCondition: assessment.primary_condition,
         secondaryConditions: assessment.secondary_conditions || [],
         severity: assessment.severity,
-        timestamp: new Date(assessment.created_at),
+        timestamp: new Date(assessment.created_at || Date.now()),
         recommendations: assessment.recommendations || [],
         created_at: assessment.created_at // Keep this for the key prop
       }));
       
+      console.log('Transformed assessment data:', transformedData);
       setAssessments(transformedData);
       setLoading(false);
     }
@@ -46,6 +54,10 @@ export function AssessmentHistory() {
 
   if (loading) {
     return <div className="text-center py-4">Loading assessment history...</div>;
+  }
+
+  if (assessments.length === 0) {
+    return <div className="text-center py-4">No assessment history found.</div>;
   }
 
   return (

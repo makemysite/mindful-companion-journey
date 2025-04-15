@@ -22,6 +22,7 @@ export function TreatmentHistory() {
   useEffect(() => {
     async function fetchTreatments() {
       if (!user) return;
+      
       const { data, error } = await supabase
         .from('treatment_plans')
         .select('*')
@@ -33,7 +34,24 @@ export function TreatmentHistory() {
       }
 
       console.log('Fetched Treatment Plans:', data);
-      setTreatments(data);
+      
+      if (!data || data.length === 0) {
+        console.log('No treatment plans found');
+        setLoading(false);
+        return;
+      }
+      
+      // Ensure all treatment plans have the expected structure
+      const formattedTreatments = data.map((treatment: any) => ({
+        ...treatment,
+        medications: treatment.medications || [],
+        exercises: treatment.exercises || [],
+        activities: treatment.activities || [],
+        start_date: treatment.start_date || treatment.created_at
+      }));
+      
+      console.log('Formatted treatment plans:', formattedTreatments);
+      setTreatments(formattedTreatments);
       setLoading(false);
     }
 
@@ -42,6 +60,10 @@ export function TreatmentHistory() {
 
   if (loading) {
     return <div className="text-center py-4">Loading treatment history...</div>;
+  }
+
+  if (treatments.length === 0) {
+    return <div className="text-center py-4">No treatment history found.</div>;
   }
 
   return (
@@ -60,23 +82,23 @@ export function TreatmentHistory() {
                   <h4 className="font-medium text-sm text-gray-700">Medications</h4>
                   <p className="text-sm text-gray-600">
                     {treatment.medications.length} prescribed
-                    {treatment.medications.map((med, index) => (
-                      <div key={index} className="text-xs text-gray-500">
-                        {med.name} ({med.dosage})
-                      </div>
-                    ))}
                   </p>
+                  {treatment.medications.map((med, index) => (
+                    <div key={index} className="text-xs text-gray-500">
+                      {med.name} ({med.dosage})
+                    </div>
+                  ))}
                 </div>
                 <div>
                   <h4 className="font-medium text-sm text-gray-700">Exercises</h4>
                   <p className="text-sm text-gray-600">
                     {treatment.exercises.length} assigned
-                    {treatment.exercises.map((exercise, index) => (
-                      <div key={index} className="text-xs text-gray-500">
-                        {exercise.name} ({exercise.duration})
-                      </div>
-                    ))}
                   </p>
+                  {treatment.exercises.map((exercise, index) => (
+                    <div key={index} className="text-xs text-gray-500">
+                      {exercise.name} ({exercise.duration})
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
